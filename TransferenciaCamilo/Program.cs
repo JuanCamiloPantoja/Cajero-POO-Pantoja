@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ATM
+namespace TrnasferenciaCajeroCamilx
 {
     class Program
     {
