@@ -1,40 +1,73 @@
 ﻿using System;
 
-namespace TrnasferenciaCajeroCamilx
+namespace TransferenciaCajeroCamilx
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Sea usted bienvenido al mejor cajero automático. ");
+            CajeroAutomatico cajero = new CajeroAutomatico();
+            cajero.Iniciar();
+        }
+    }
+
+    public class CajeroAutomatico
+    {
+        private Usuario usuario;
+
+        public void Iniciar()
+        {
+            Console.WriteLine("Sea usted bienvenido al mejor cajero automático.");
             if (InicioSesion())
             {
-                Console.WriteLine("Su inicio de sesión en un éxito. ");
-                TransferenciaCam();
+                Console.WriteLine("Su inicio de sesión fue un éxito.");
+                Transferencia transferencia = new Transferencia();
+                transferencia.RealizarTransferencia();
             }
             else
             {
-                Console.WriteLine("Su intentó de inicio sesión fracasó. ");
+                Console.WriteLine("Su intento de inicio sesión fracasó.");
             }
-
         }
 
-        static bool InicioSesion()
+        private bool InicioSesion()
         {
-            Console.Write("Por favor, inserte su Usuario.  ");
-            string usuario = Console.ReadLine();
-            Console.Write("Digite su clave:  ");
-            string clave = Console.ReadLine();
-            return usuario == "Camile" && clave == "1033";
+            Console.Write("Por favor, inserte su Usuario: ");
+            string nombreUsuario = Console.ReadLine();
+            Console.Write("Digite su clave: ");
+            string claveUsuario = Console.ReadLine();
+            usuario = new Usuario(nombreUsuario, claveUsuario);
+            return usuario.Validar();
+        }
+    }
+
+    public class Usuario
+    {
+        private string NombreUsuario { get; }
+        private string ClaveUsuario { get; }
+
+        public Usuario(string nombreUsuario, string claveUsuario)
+        {
+            NombreUsuario = nombreUsuario;
+            ClaveUsuario = claveUsuario;
         }
 
-        static void TransferenciaCam()
+        public bool Validar()
+        {
+            return NombreUsuario == "Camile" && ClaveUsuario == "1033";
+        }
+    }
+
+    public class Transferencia
+    {
+        public void RealizarTransferencia()
         {
             Console.Write("¿Qué monto desea transferir? ");
             decimal monto = Convert.ToDecimal(Console.ReadLine());
-            Console.Write("Por favor, inserte el número de cuenta que le pertenezca al destinario: ");
-            string NumCuenta = Console.ReadLine();
-            Console.WriteLine($"Usted ha pasado {monto:C} a la cuenta {NumCuenta}.");
+            Console.Write("Por favor, inserte el número de cuenta que le pertenezca al destinatario: ");
+            string numeroCuenta = Console.ReadLine();
+            Console.WriteLine($"Usted ha transferido {monto:C} a la cuenta {numeroCuenta}.");
+            Console.ReadKey();
         }
     }
 }
